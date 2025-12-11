@@ -1,34 +1,28 @@
 <?php
 
-use Illuminate\Support\Arr;
+use App\Http\Controllers\JobController;
+use App\Http\Controllers\RegisteredUserController;
+use App\Http\Controllers\SessionController;
 use Illuminate\Support\Facades\Route;
-use App\Models\Job;
 
 
 Route::get('/', function () {
   return view('home');
 });
 
-Route::get('/jobs', function () {
+Route::get('/jobs', [JobController::class, 'index'])->name('job.index');
+Route::get('/jobs/create', [JobController::class, 'create'])->name('job.create');
+Route::get('/jobs/{job}', [JobController::class, 'show'])->name('job.show');
+Route::post('/jobs', [JobController::class, 'store'])->name('job.store');
+Route::get('/jobs/{job}/edit', [JobController::class, 'edit'])->name('job.edit');
+Route::put('/jobs/{job}', [JobController::class, 'update'])->name('job.update');
+Route::delete('/jobs/{job}', [JobController::class, 'destroy'])->name('job.delete');
 
-  $jobs = Job::with('employer')->paginate(3);
+Route::get('/register', [RegisteredUserController::class, 'create'])->name('auth.create');
 
-  return view('jobs', [
-    'jobs' => $jobs
-  ]);
-});
-
-Route::get('/jobs/{id}', function (int $id) {
-
-  // $job2 = Arr::first($jobs, function ($job) use ($id) {
-  //   return $job['id'] === $id;
-  // });
-  $job = Job::find($id);
-
-  return view('job', [
-    'job' => $job
-  ]);
-})->name('job.show');
+Route::post('/register', [RegisteredUserController::class, 'store'])->name('auth.store');
+Route::get('/login', [SessionController::class, 'create'])->name('session.login');
+Route::post('/login', [SessionController::class, 'store'])->name('session.store');
 
 Route::get('/contact', function () {
   return view('contact');
