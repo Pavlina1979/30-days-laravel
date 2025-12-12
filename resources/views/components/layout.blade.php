@@ -31,7 +31,11 @@
           <div class="hidden md:block">
             <div class="ml-4 flex items-center md:ml-6">
               @auth
-                <x-nav-link href="{{ route('session.login') }}">Log out</x-nav-link>
+                {{-- <x-nav-link href="{{ route('session.login') }}">Log out</x-nav-link> --}}
+                <form action="{{ route('session.destroy') }}" method="post">
+                  @csrf
+                  <x-form-button>Log out</x-form-button>
+                </form>
               @endauth
               @guest
                 <x-nav-link href="{{ route('session.login') }}" :active="request()->is('login')">Log in</x-nav-link>
