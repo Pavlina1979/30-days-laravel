@@ -4,5 +4,8 @@
 
     <p class="mb-8">Salary: {{ $job->salary }}</p>
 
-    <a class="border rounded-md px-3 py-1" href="{{ route('job.edit', $job) }}">Edit job</a>
+    @can('edit', $job)
+      <a class="border rounded-md px-3 py-1" href="{{ route('job.edit', $job) }}">Edit job</a>
+    @endcan
+
 </x-layout>

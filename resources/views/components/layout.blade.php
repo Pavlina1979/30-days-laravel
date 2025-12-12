@@ -38,7 +38,7 @@
                 </form>
               @endauth
               @guest
-                <x-nav-link href="{{ route('session.login') }}" :active="request()->is('login')">Log in</x-nav-link>
+                <x-nav-link href="{{ route('login') }}" :active="request()->is('login')">Log in</x-nav-link>
                 <x-nav-link href="{{ route('auth.create') }}" :active="request()->is('register')">Register</x-nav-link>
               @endguest
 

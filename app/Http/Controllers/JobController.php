@@ -3,14 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Job;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class JobController extends Controller
 {
   public function index(Job $jobs)
   {
-    $jobs = Job::with('employer')->latest()->paginate(3);
+    $jobs = Job::with('employer')->latest()->paginate(8);
 
     return view('jobs.index', [
       'jobs' => $jobs
@@ -41,14 +43,6 @@ class JobController extends Controller
 
   public function edit(Job $job)
   {
-    if (Auth::guest()) {
-      return redirect()->route('session.login');
-    }
-
-
-    if ($job->employer->user->isNot(Auth::user())) {
-      abort(403);
-    }
 
     return view('jobs.edit', [
       'job' => $job
@@ -57,6 +51,8 @@ class JobController extends Controller
 
   public function update(Job $job, Request $request)
   {
+
+
     $data = $request->validate([
       'title' => 'required|min:3',
       'salary' => 'required'
@@ -69,6 +65,8 @@ class JobController extends Controller
 
   public function destroy(Job $job)
   {
+
+
     $job->delete();
     return redirect()->route('job.index');
   }
