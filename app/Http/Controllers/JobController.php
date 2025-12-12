@@ -45,9 +45,8 @@ class JobController extends Controller
       return redirect()->route('session.login');
     }
 
-    dd($job->employer);
 
-    if ($job->employer()->user->isNot(Auth::user())) {
+    if ($job->employer->user->isNot(Auth::user())) {
       abort(403);
     }
 
