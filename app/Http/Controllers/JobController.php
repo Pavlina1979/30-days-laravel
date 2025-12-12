@@ -38,6 +38,7 @@ class JobController extends Controller
     $data = $request->validate([
       'title' => 'required|min:3',
       'salary' => 'required',
+
     ]);
 
     $job = Job::create([...$data, 'employer_id' => 1]);
